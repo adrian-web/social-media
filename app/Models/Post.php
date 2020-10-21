@@ -11,6 +11,18 @@ class Post extends Model
 
     protected $with = ['creator'];
 
+    protected $appends = ['path'];
+
+    public function path()
+    {
+        return "/posts/{$this->id}";
+    }
+
+    public function getPathAttribute()
+    {
+        return $this->path();
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');

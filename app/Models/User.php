@@ -57,5 +57,16 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'path',
     ];
+
+    public function path()
+    {
+        return "/activity/{$this->id}";
+    }
+
+    public function getPathAttribute()
+    {
+        return $this->path();
+    }
 }
