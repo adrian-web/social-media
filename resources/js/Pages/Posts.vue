@@ -1,25 +1,29 @@
 <template>
-  <app-layout>
-    <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Posts</h2>
-    </template>
+	<app-layout>
+		<template #header>
+			<h2 class="font-semibold text-xl text-gray-800 leading-tight">Posts</h2>
+		</template>
 
-    <div class="py-12">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-          <p>Hello World</p>
-        </div>
-      </div>
-    </div>
-  </app-layout>
+		<div class="py-12">
+			<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+				<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+					<show-posts :posts="posts" />
+				</div>
+			</div>
+		</div>
+	</app-layout>
 </template>
 
 <script>
 import AppLayout from "./../Layouts/AppLayout";
+import ShowPosts from "./Components/ShowPosts";
 
 export default {
-  components: {
-    AppLayout,
-  },
+	props: ["posts"],
+
+	components: {
+		AppLayout,
+		ShowPosts,
+	},
 };
 </script>
