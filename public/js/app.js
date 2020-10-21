@@ -3521,8 +3521,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["comments"]
+  data: function data() {
+    return {
+      comments: []
+    };
+  },
+  created: function created() {
+    this.fetch();
+  },
+  methods: {
+    fetch: function fetch() {
+      axios.get(this.url()).then(this.refresh);
+    },
+    url: function url() {
+      return "".concat(location.pathname, "/comments");
+    },
+    refresh: function refresh(_ref) {
+      var data = _ref.data;
+      this.comments = data;
+    },
+    ago: function ago(comment) {
+      return moment(comment.created_at).fromNow();
+    }
+  }
 });
 
 /***/ }),
@@ -3678,7 +3701,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["post", "comments"],
+  props: ["post"],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     ShowPost: _Components_ShowPost__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -26441,7 +26464,7 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _c("span", { staticClass: "mx-1" }, [_vm._v("owned by")]),
+              _c("span", { staticClass: "mx-1" }, [_vm._v("posted by")]),
               _vm._v(" "),
               _c(
                 "inertia-link",
@@ -26450,7 +26473,11 @@ var render = function() {
                   attrs: { href: comment.owner.path }
                 },
                 [_vm._v("\n        " + _vm._s(comment.owner.name) + "\n      ")]
-              )
+              ),
+              _vm._v(" "),
+              _c("span", {
+                domProps: { textContent: _vm._s(_vm.ago(comment)) }
+              })
             ],
             1
           ),
@@ -26715,7 +26742,7 @@ var render = function() {
                 [
                   _c("show-post", { attrs: { post: _vm.post } }),
                   _vm._v(" "),
-                  _c("show-comments", { attrs: { comments: _vm.comments } })
+                  _c("show-comments")
                 ],
                 1
               )

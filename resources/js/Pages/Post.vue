@@ -9,7 +9,7 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div class="p-6 sm:px-20 border-b border-gray-200 text-gray-500">
             <show-post :post="post" />
-            <show-comments :comments="comments" />
+            <show-comments />
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
   import ShowComments from "./Components/ShowComments";
 
   export default {
-    props: ["post", "comments"],
+    props: ["post"],
 
     components: {
       AppLayout,

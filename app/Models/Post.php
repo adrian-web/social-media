@@ -15,7 +15,7 @@ class Post extends Model
 
     public function path()
     {
-        return "/timeline/{$this->id}";
+        return "/{$this->id}";
     }
 
     public function getPathAttribute()

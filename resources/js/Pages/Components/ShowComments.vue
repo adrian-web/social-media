@@ -8,10 +8,11 @@
           :src="comment.owner.profile_photo_url"
           :alt="comment.owner.name"
         />
-        <span class="mx-1">owned by</span>
+        <span class="mx-1">posted by</span>
         <inertia-link class="hover:underline" :href="comment.owner.path">
           {{ comment.owner.name }}
         </inertia-link>
+        <span v-text="ago(comment)"></span>
       </div>
       <p class="mt-3">
         {{ comment.body }}
@@ -23,6 +24,29 @@
 
 <script>
   export default {
-    props: ["comments"],
+    data() {
+      return {
+        comments: [],
+      };
+    },
+
+    created() {
+      this.fetch();
+    },
+
+    methods: {
+      fetch() {
+        axios.get(this.url()).then(this.refresh);
+      },
+      url() {
+        return `${location.pathname}/comments`;
+      },
+      refresh({ data }) {
+        this.comments = data;
+      },
+      ago(comment) {
+        return moment(comment.created_at).fromNow();
+      },
+    },
   };
 </script>

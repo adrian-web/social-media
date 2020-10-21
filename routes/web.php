@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -15,14 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/timeline', [PostController::class, 'index'])->name('timeline');
-Route::get('/timeline/{post}', [PostController::class, 'show']);
+Route::get('/', [PostController::class, 'index'])->name('timeline');
+Route::get('/{post}', [PostController::class, 'show']);
+
+Route::get('/{post}/comments', [CommentController::class, 'index']);
+
 Route::get('/activity/{user}', [UserController::class, 'show'])->name('activity');
