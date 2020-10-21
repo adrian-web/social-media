@@ -17,8 +17,8 @@
                             <jet-nav-link :href="route('dashboard')" :active="$page.currentRouteName == 'dashboard'">
                                 Dashboard
                             </jet-nav-link>
-                            <jet-nav-link :href="route('posts')" :active="$page.currentRouteName == 'posts'">
-                                Posts
+                            <jet-nav-link :href="route('timeline')" :active="$page.currentRouteName == 'timeline'">
+                                Timeline
                             </jet-nav-link>
                             <jet-nav-link :href="$page.user.path" :active="$page.currentRouteName == 'activity'">
                                 Activity
@@ -127,8 +127,8 @@
                     <jet-responsive-nav-link :href="route('dashboard')" :active="$page.currentRouteName == 'dashboard'">
                         Dashboard
                     </jet-responsive-nav-link>
-                    <jet-responsive-nav-link :href="route('posts')" :active="$page.currentRouteName == 'posts'">
-                        Posts
+                    <jet-responsive-nav-link :href="route('timeline')" :active="$page.currentRouteName == 'timeline'">
+                        Timeline
                     </jet-responsive-nav-link>
                     <jet-responsive-nav-link :href="$page.user.path" :active="$page.currentRouteName == 'activity'">
                         Activity

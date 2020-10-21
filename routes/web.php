@@ -23,6 +23,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts');
-Route::get('/posts/{post}', [PostController::class, 'show']);
+Route::get('/timeline', [PostController::class, 'index'])->name('timeline');
+Route::get('/timeline/{post}', [PostController::class, 'show']);
 Route::get('/activity/{user}', [UserController::class, 'show'])->name('activity');

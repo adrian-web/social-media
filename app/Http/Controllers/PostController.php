@@ -19,6 +19,7 @@ class PostController extends Controller
     {
         return Inertia::render('Post', [
             'post' => $post,
+            'comments' => $post->comments()->get(),
         ]);
     }
 }

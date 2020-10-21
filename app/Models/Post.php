@@ -15,7 +15,7 @@ class Post extends Model
 
     public function path()
     {
-        return "/posts/{$this->id}";
+        return "/timeline/{$this->id}";
     }
 
     public function getPathAttribute()
@@ -26,5 +26,10 @@ class Post extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

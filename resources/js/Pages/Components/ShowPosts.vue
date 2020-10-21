@@ -1,15 +1,15 @@
 <template>
-  <div class="p-6 sm:px-20 border-b border-gray-200 text-gray-500">
+  <div>
     <article v-for="(post, index) in posts" :key="post.id">
       <div class="flex flex-col">
         <h4 class="font-medium text-lg">
-          <inertia-link :href="post.path">
+          <inertia-link class="hover:underline" :href="post.path">
             {{ post.title }}
           </inertia-link>
         </h4>
         <h6 class="mt-1 text-xs">
           <span>created by</span>
-          <inertia-link :href="post.creator.path">
+          <inertia-link class="hover:underline" :href="post.creator.path">
             {{ post.creator.name }}
           </inertia-link>
         </h6>

@@ -7,7 +7,10 @@
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-          <show-post :post="post" />
+          <div class="p-6 sm:px-20 border-b border-gray-200 text-gray-500">
+            <show-post :post="post" />
+            <show-comments :comments="comments" />
+          </div>
         </div>
       </div>
     </div>
@@ -17,13 +20,15 @@
 <script>
   import AppLayout from "./../Layouts/AppLayout";
   import ShowPost from "./Components/ShowPost";
+  import ShowComments from "./Components/ShowComments";
 
   export default {
-    props: ["post"],
+    props: ["post", "comments"],
 
     components: {
       AppLayout,
       ShowPost,
+      ShowComments,
     },
   };
 </script>
