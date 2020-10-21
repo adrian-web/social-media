@@ -10,6 +10,7 @@
           <div class="p-6 sm:px-20 border-b border-gray-200 text-gray-500">
             <show-post :post="post" />
             <show-comments />
+            <create-comment :post="post" />
           </div>
         </div>
       </div>
@@ -21,6 +22,7 @@
   import AppLayout from "./../Layouts/AppLayout";
   import ShowPost from "./Components/ShowPost";
   import ShowComments from "./Components/ShowComments";
+  import CreateComment from "./Components/CreateComment";
 
   export default {
     props: ["post"],
@@ -29,6 +31,7 @@
       AppLayout,
       ShowPost,
       ShowComments,
+      CreateComment,
     },
   };
 </script>

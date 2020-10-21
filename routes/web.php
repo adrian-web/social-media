@@ -28,5 +28,6 @@ Route::get('/', [PostController::class, 'index'])->name('timeline');
 Route::get('/{post}', [PostController::class, 'show']);
 
 Route::get('/{post}/comments', [CommentController::class, 'index']);
+Route::post('/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Route::get('/activity/{user}', [UserController::class, 'show'])->name('activity');

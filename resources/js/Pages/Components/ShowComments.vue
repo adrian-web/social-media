@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3">
+  <div class="mt-3" v-if="commentsShow">
     <p class="text-lg">Comments</p>
     <div class="my-3" v-for="(comment, index) in comments" :key="comment.id">
       <div class="flex items-center text-xs">
@@ -12,7 +12,7 @@
         <inertia-link class="hover:underline" :href="comment.owner.path">
           {{ comment.owner.name }}
         </inertia-link>
-        <span v-text="ago(comment)"></span>
+        <span class="ml-1" v-text="ago(comment)"></span>
       </div>
       <p class="mt-3">
         {{ comment.body }}
@@ -26,12 +26,18 @@
   export default {
     data() {
       return {
-        comments: [],
+        comments: "",
       };
     },
 
     created() {
       this.fetch();
+    },
+
+    mounted() {
+      this.$root.$on("created-comment", () => {
+        this.fetch();
+      });
     },
 
     methods: {
@@ -46,6 +52,12 @@
       },
       ago(comment) {
         return moment(comment.created_at).fromNow();
+      },
+    },
+
+    computed: {
+      commentsShow() {
+        return this.comments.length > 0;
       },
     },
   };

@@ -24,7 +24,7 @@ class TimelineSeeder extends Seeder
 
         foreach ($posts as $post) {
             Comment::factory()
-                ->count(rand(1,9))
+                ->count(rand(0, 5))
                 ->create(['post_id' => $post->id]);
         }
 
