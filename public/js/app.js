@@ -3436,6 +3436,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["posts"]
 });
@@ -26089,9 +26107,32 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.posts, function(post) {
-      return _c("p", { key: post.id }, [
-        _vm._v("\n    " + _vm._s(post.title) + "\n  ")
+    { staticClass: "p-6 sm:px-20 border-b border-gray-200 text-gray-500" },
+    _vm._l(_vm.posts, function(post, index) {
+      return _c("article", { key: post.id }, [
+        _c("div", { staticClass: "flex flex-col" }, [
+          _c("h4", { staticClass: "font-medium text-lg" }, [
+            _c("a", { attrs: { href: "#" } }, [
+              _vm._v("\n          " + _vm._s(post.title) + "\n        ")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("h6", { staticClass: "mt-1 text-xs" }, [
+            _c("span", [_vm._v("created by")]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "#" } }, [
+              _vm._v("\n          " + _vm._s(post.creator.name) + "\n        ")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("h5", { staticClass: "mt-3" }, [
+          _vm._v("\n      " + _vm._s(post.body) + "\n    ")
+        ]),
+        _vm._v(" "),
+        index != _vm.posts.length - 1
+          ? _c("hr", { staticClass: "my-3" })
+          : _vm._e()
       ])
     }),
     0
