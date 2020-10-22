@@ -59,7 +59,6 @@
           preserveScroll: true,
           onSuccess: () => {
             this.$refs.body.focus();
-            this.$root.$emit("created-comment");
           },
         });
       },

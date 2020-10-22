@@ -11,7 +11,7 @@ class Comment extends Model
 
     protected $guarded = [];
 
-    protected $with = ['owner'];
+    protected $with = ['owner', 'post'];
 
     public function owner()
     {

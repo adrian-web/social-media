@@ -14,7 +14,7 @@
       <template #content>
         <jet-label for="title" value="Title" />
         <jet-input
-          id="name"
+          id="title"
           type="text"
           class="mt-1 block w-full"
           v-model="form.title"
@@ -27,7 +27,6 @@
           id="body"
           rows="10"
           v-model="form.body"
-          ref="body"
           class="form-textarea rounded-md shadow-sm mt-1 block w-full"
           required
         ></textarea>
@@ -90,9 +89,11 @@
     methods: {
       createPost() {
         this.form.post(route("posts.store"), {
-          preserveState: false,
+          preserveScroll: true,
           onSuccess: () => {
-            this.creatingPost = false;
+            if (!this.form.hasErrors()) {
+              this.creatingPost = false;
+            }
           },
         });
       },

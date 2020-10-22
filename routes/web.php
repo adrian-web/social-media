@@ -27,10 +27,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('/', [PostController::class, 'index'])->name('posts');
 Route::post('/', [PostController::class, 'store'])->name('posts.store');
 Route::get('/{post}', [PostController::class, 'show']);
+Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 Route::get('/{post}/comments', [CommentController::class, 'index'])->name('comments.index');
 Route::post('/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::put('/{post}/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
 Route::delete('/{post}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 Route::get('/activity/{user}', [UserController::class, 'show'])->name('activity');

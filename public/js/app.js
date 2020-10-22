@@ -3635,8 +3635,6 @@ __webpack_require__.r(__webpack_exports__);
         preserveScroll: true,
         onSuccess: function onSuccess() {
           _this.$refs.body.focus();
-
-          _this.$root.$emit("created-comment");
         }
       });
     }
@@ -3661,7 +3659,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
 /* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
 /* harmony import */ var _Components_NavButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../Components/NavButton */ "./resources/js/Components/NavButton.vue");
-//
 //
 //
 //
@@ -3748,9 +3745,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.form.post(route("posts.store"), {
-        preserveState: false,
+        preserveScroll: true,
         onSuccess: function onSuccess() {
-          _this.creatingPost = false;
+          if (!_this.form.hasErrors()) {
+            _this.creatingPost = false;
+          }
         }
       });
     }
@@ -3780,6 +3779,156 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Components/ShowComment.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Components/ShowComment.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
+/* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_0__["default"],
+    JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_1__["default"],
+    JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  props: ["comment"],
+  data: function data() {
+    return {
+      deleteCommentForm: this.$inertia.form(),
+      editing: false,
+      cacheBody: this.comment.body,
+      editCommentForm: this.$inertia.form({
+        body: this.comment.body
+      }, {
+        bag: "editComment",
+        resetOnSuccess: false
+      })
+    };
+  },
+  methods: {
+    ago: function ago(comment) {
+      return moment(comment.created_at).fromNow();
+    },
+    deletingComment: function deletingComment() {
+      this.deleteCommentForm["delete"](route("comments.destroy", {
+        post: this.comment.post,
+        comment: this.comment
+      }), {
+        preserveScroll: true
+      });
+    },
+    editingComment: function editingComment() {
+      var _this = this;
+
+      this.editCommentForm.put(route("comments.update", {
+        post: this.comment.post,
+        comment: this.comment
+      }), {
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          if (!_this.editCommentForm.hasErrors()) {
+            _this.cacheBody = _this.editCommentForm.body;
+            _this.editing = false;
+          }
+        }
+      });
+    },
+    editingClose: function editingClose() {
+      this.editCommentForm.body = this.cacheBody;
+      this.editing = false;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Components/ShowComments.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Components/ShowComments.vue?vue&type=script&lang=js& ***!
@@ -3789,6 +3938,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ShowComment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowComment */ "./resources/js/Pages/Components/ShowComment.vue");
 //
 //
 //
@@ -3799,68 +3949,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["post"],
-  data: function data() {
-    return {
-      comments: "",
-      deleteCommentForm: this.$inertia.form()
-    };
+  components: {
+    ShowComment: _ShowComment__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  created: function created() {
-    this.fetchComments();
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.$root.$on("created-comment", function () {
-      _this.fetchComments();
-    });
-  },
-  methods: {
-    fetchComments: function fetchComments() {
-      var _this2 = this;
-
-      axios.get(route("comments.index", this.post)).then(function (_ref) {
-        var data = _ref.data;
-        _this2.comments = data;
-      });
-    },
-    ago: function ago(comment) {
-      return moment(comment.created_at).fromNow();
-    },
-    deletingComment: function deletingComment(comment) {
-      var _this3 = this;
-
-      this.deleteCommentForm["delete"](route("comments.destroy", {
-        post: this.post,
-        comment: comment
-      }), {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: function onSuccess() {
-          _this3.fetchComments();
-        }
-      });
-    }
-  },
+  props: ["post", "comments"],
   computed: {
     showComments: function showComments() {
       return this.comments.length > 0;
@@ -3879,6 +3973,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
+/* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
+/* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
 //
 //
 //
@@ -3906,16 +4005,104 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_0__["default"],
+    JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_1__["default"],
+    JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
   props: ["post"],
   data: function data() {
     return {
-      deletePostForm: this.$inertia.form()
+      deletePostForm: this.$inertia.form(),
+      editing: false,
+      cacheTitle: this.post.title,
+      cacheBody: this.post.body,
+      editPostForm: this.$inertia.form({
+        title: this.post.title,
+        body: this.post.body
+      }, {
+        bag: "editPost",
+        resetOnSuccess: false
+      })
     };
   },
   methods: {
     deletingPost: function deletingPost() {
       this.deletePostForm["delete"](route("posts.destroy", this.post));
+    },
+    editingPost: function editingPost() {
+      var _this = this;
+
+      this.editPostForm.put(route("posts.update", this.post), {
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          if (!_this.editPostForm.hasErrors()) {
+            _this.cacheTitle = _this.editPostForm.title;
+            _this.cacheBody = _this.editPostForm.body;
+            _this.editing = false;
+          }
+        }
+      });
+    },
+    editingClose: function editingClose() {
+      this.editPostForm.title = this.cacheTitle;
+      this.editPostForm.body = this.cacheBody;
+      this.editing = false;
     }
   }
 });
@@ -4041,7 +4228,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["post"],
+  props: ["post", "comments"],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     ShowPost: _Components_ShowPost__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -27101,7 +27288,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("jet-input", {
                   staticClass: "mt-1 block w-full",
-                  attrs: { id: "name", type: "text", required: "" },
+                  attrs: { id: "title", type: "text", required: "" },
                   model: {
                     value: _vm.form.title,
                     callback: function($$v) {
@@ -27130,7 +27317,6 @@ var render = function() {
                       expression: "form.body"
                     }
                   ],
-                  ref: "body",
                   staticClass:
                     "form-textarea rounded-md shadow-sm mt-1 block w-full",
                   attrs: { id: "body", rows: "10", required: "" },
@@ -27223,6 +27409,219 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Components/ShowComment.vue?vue&type=template&id=409af91c&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Components/ShowComment.vue?vue&type=template&id=409af91c& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.editing,
+            expression: "!editing"
+          }
+        ],
+        staticClass: "flex items-center"
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "flex" },
+          [
+            _c("img", {
+              staticClass: "h-6 w-6 rounded-full object-cover",
+              attrs: {
+                src: _vm.comment.owner.profile_photo_url,
+                alt: _vm.comment.owner.name
+              }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "mx-1 text-xs" }, [_vm._v("posted by")]),
+            _vm._v(" "),
+            _c(
+              "inertia-link",
+              {
+                staticClass: "hover:underline text-xs",
+                attrs: { href: _vm.comment.owner.path }
+              },
+              [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.comment.owner.name) + "\n      "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("span", {
+              staticClass: "ml-1 text-xs",
+              domProps: { textContent: _vm._s(_vm.ago(_vm.comment)) }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex ml-auto" }, [
+          _c(
+            "button",
+            {
+              staticClass: "ml-auto",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.editing = !_vm.editing
+                }
+              }
+            },
+            [_c("span", { staticClass: "fa fa-chevron-down" })]
+          )
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.editing,
+            expression: "!editing"
+          }
+        ],
+        staticClass: "mt-3"
+      },
+      [_vm._v("\n    " + _vm._s(_vm.comment.body) + "\n  ")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.editing,
+            expression: "editing"
+          }
+        ],
+        staticClass: "mt-1"
+      },
+      [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.editingComment($event)
+              }
+            }
+          },
+          [
+            _c("jet-label", {
+              staticClass: "mt-2",
+              attrs: { for: "body", value: "Body" }
+            }),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.editCommentForm.body,
+                  expression: "editCommentForm.body"
+                }
+              ],
+              staticClass:
+                "form-textarea rounded-md shadow-sm mt-1 block w-full",
+              attrs: { id: "body", rows: "5", required: "" },
+              domProps: { value: _vm.editCommentForm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.editCommentForm, "body", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("jet-input-error", {
+              staticClass: "mt-2",
+              attrs: { message: _vm.editCommentForm.error("body") }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "flex mt-2" },
+              [
+                _c(
+                  "jet-secondary-button",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.editingClose($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n          Cancel\n        ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "jet-button",
+                  {
+                    staticClass: "ml-2",
+                    class: { "opacity-25": _vm.editCommentForm.processing },
+                    attrs: { disabled: _vm.editCommentForm.processing }
+                  },
+                  [_vm._v("\n          Update\n        ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "text-xl ml-auto",
+                    class: { "opacity-25": _vm.deleteCommentForm.processing },
+                    attrs: {
+                      type: "button",
+                      disabled: _vm.deleteCommentForm.processing
+                    },
+                    on: { click: _vm.deletingComment }
+                  },
+                  [_c("span", { staticClass: "fa fa-trash-o" })]
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Components/ShowComments.vue?vue&type=template&id=1a498bf1&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Components/ShowComments.vue?vue&type=template&id=1a498bf1& ***!
@@ -27246,64 +27645,18 @@ var render = function() {
           _c("p", { staticClass: "text-lg" }, [_vm._v("Comments")]),
           _vm._v(" "),
           _vm._l(_vm.comments, function(comment, index) {
-            return _c("div", { key: comment.id, staticClass: "my-3" }, [
-              _c(
-                "div",
-                { staticClass: "flex items-center text-xs" },
-                [
-                  _c("img", {
-                    staticClass: "h-6 w-6 rounded-full object-cover",
-                    attrs: {
-                      src: comment.owner.profile_photo_url,
-                      alt: comment.owner.name
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "mx-1" }, [_vm._v("posted by")]),
-                  _vm._v(" "),
-                  _c(
-                    "inertia-link",
-                    {
-                      staticClass: "hover:underline",
-                      attrs: { href: comment.owner.path }
-                    },
-                    [
-                      _vm._v(
-                        "\n        " + _vm._s(comment.owner.name) + "\n      "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("span", {
-                    staticClass: "ml-1",
-                    domProps: { textContent: _vm._s(_vm.ago(comment)) }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "ml-auto",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deletingComment(comment)
-                        }
-                      }
-                    },
-                    [_vm._v("\n        Delete\n      ")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("p", { staticClass: "mt-3" }, [
-                _vm._v("\n      " + _vm._s(comment.body) + "\n    ")
-              ]),
-              _vm._v(" "),
-              index != _vm.comments.length - 1
-                ? _c("hr", { staticClass: "my-3" })
-                : _vm._e()
-            ])
+            return _c(
+              "div",
+              { key: comment.id, staticClass: "my-3" },
+              [
+                _c("show-comment", { attrs: { comment: comment } }),
+                _vm._v(" "),
+                index != _vm.comments.length - 1
+                  ? _c("hr", { staticClass: "my-3" })
+                  : _vm._e()
+              ],
+              1
+            )
           })
         ],
         2
@@ -27332,56 +27685,208 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("article", [
-    _c("div", { staticClass: "flex" }, [
-      _c("div", { staticClass: "flex flex-col" }, [
-        _c("h4", { staticClass: "font-medium text-lg" }, [
-          _vm._v("\n        " + _vm._s(_vm.post.title) + "\n      ")
+  return _c("div", [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.editing,
+            expression: "!editing"
+          }
+        ],
+        staticClass: "flex"
+      },
+      [
+        _c("div", { staticClass: "flex flex-col" }, [
+          _c("div", { staticClass: "font-medium text-lg" }, [
+            _vm._v("\n        " + _vm._s(_vm.post.title) + "\n      ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "mt-1 text-xs" },
+            [
+              _c("span", [_vm._v("created by")]),
+              _vm._v(" "),
+              _c(
+                "inertia-link",
+                {
+                  staticClass: "hover:underline",
+                  attrs: { href: _vm.post.creator.path }
+                },
+                [
+                  _vm._v(
+                    "\n          " +
+                      _vm._s(_vm.post.creator.name) +
+                      "\n        "
+                  )
+                ]
+              )
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
+        _c("div", { staticClass: "flex items-start ml-auto" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.editing = !_vm.editing
+                }
+              }
+            },
+            [_c("span", { staticClass: "fa fa-chevron-down" })]
+          )
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.editing,
+            expression: "!editing"
+          }
+        ],
+        staticClass: "mt-3"
+      },
+      [_vm._v("\n    " + _vm._s(_vm.post.body) + "\n  ")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.editing,
+            expression: "editing"
+          }
+        ],
+        staticClass: "mt-1"
+      },
+      [
         _c(
-          "h6",
-          { staticClass: "mt-1 text-xs" },
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.editingPost($event)
+              }
+            }
+          },
           [
-            _c("span", [_vm._v("created by")]),
+            _c("jet-label", { attrs: { for: "title", value: "Title" } }),
+            _vm._v(" "),
+            _c("jet-input", {
+              staticClass: "mt-1 block w-full",
+              attrs: { id: "title", type: "text", required: "" },
+              model: {
+                value: _vm.editPostForm.title,
+                callback: function($$v) {
+                  _vm.$set(_vm.editPostForm, "title", $$v)
+                },
+                expression: "editPostForm.title"
+              }
+            }),
+            _vm._v(" "),
+            _c("jet-input-error", {
+              staticClass: "mt-2",
+              attrs: { message: _vm.editPostForm.error("title") }
+            }),
+            _vm._v(" "),
+            _c("jet-label", {
+              staticClass: "mt-2",
+              attrs: { for: "body", value: "Body" }
+            }),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.editPostForm.body,
+                  expression: "editPostForm.body"
+                }
+              ],
+              staticClass:
+                "form-textarea rounded-md shadow-sm mt-1 block w-full",
+              attrs: { id: "body", rows: "5", required: "" },
+              domProps: { value: _vm.editPostForm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.editPostForm, "body", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("jet-input-error", {
+              staticClass: "mt-2",
+              attrs: { message: _vm.editPostForm.error("body") }
+            }),
             _vm._v(" "),
             _c(
-              "inertia-link",
-              {
-                staticClass: "hover:underline",
-                attrs: { href: _vm.post.creator.path }
-              },
+              "div",
+              { staticClass: "flex mt-2" },
               [
-                _vm._v(
-                  "\n          " + _vm._s(_vm.post.creator.name) + "\n        "
+                _c(
+                  "jet-secondary-button",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.editingClose($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n          Cancel\n        ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "jet-button",
+                  {
+                    staticClass: "ml-2",
+                    class: { "opacity-25": _vm.editPostForm.processing },
+                    attrs: { disabled: _vm.editPostForm.processing }
+                  },
+                  [_vm._v("\n          Update\n        ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "text-xl ml-auto",
+                    class: { "opacity-25": _vm.deletePostForm.processing },
+                    attrs: {
+                      type: "button",
+                      disabled: _vm.deletePostForm.processing
+                    },
+                    on: { click: _vm.deletingPost }
+                  },
+                  [_c("span", { staticClass: "fa fa-trash-o" })]
                 )
-              ]
+              ],
+              1
             )
           ],
           1
         )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "contents" }, [
-        _c(
-          "button",
-          {
-            staticClass: "ml-auto",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.deletingPost()
-              }
-            }
-          },
-          [_vm._v("\n        Delete\n      ")]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("h5", { staticClass: "mt-3" }, [
-      _vm._v("\n    " + _vm._s(_vm.post.body) + "\n  ")
-    ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []
@@ -27579,7 +28084,9 @@ var render = function() {
                 [
                   _c("show-post", { attrs: { post: _vm.post } }),
                   _vm._v(" "),
-                  _c("show-comments", { attrs: { post: _vm.post } }),
+                  _c("show-comments", {
+                    attrs: { post: _vm.post, comments: _vm.comments }
+                  }),
                   _vm._v(" "),
                   _c("create-comment", { attrs: { post: _vm.post } })
                 ],
@@ -42766,6 +43273,8 @@ var map = {
 	"./Components/CreatePost.vue": "./resources/js/Pages/Components/CreatePost.vue",
 	"./Components/ShowActivity": "./resources/js/Pages/Components/ShowActivity.vue",
 	"./Components/ShowActivity.vue": "./resources/js/Pages/Components/ShowActivity.vue",
+	"./Components/ShowComment": "./resources/js/Pages/Components/ShowComment.vue",
+	"./Components/ShowComment.vue": "./resources/js/Pages/Components/ShowComment.vue",
 	"./Components/ShowComments": "./resources/js/Pages/Components/ShowComments.vue",
 	"./Components/ShowComments.vue": "./resources/js/Pages/Components/ShowComments.vue",
 	"./Components/ShowPost": "./resources/js/Pages/Components/ShowPost.vue",
@@ -43223,6 +43732,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowActivity_vue_vue_type_template_id_4ae79b8c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowActivity_vue_vue_type_template_id_4ae79b8c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Components/ShowComment.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/Pages/Components/ShowComment.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ShowComment_vue_vue_type_template_id_409af91c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowComment.vue?vue&type=template&id=409af91c& */ "./resources/js/Pages/Components/ShowComment.vue?vue&type=template&id=409af91c&");
+/* harmony import */ var _ShowComment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowComment.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Components/ShowComment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ShowComment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ShowComment_vue_vue_type_template_id_409af91c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ShowComment_vue_vue_type_template_id_409af91c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Components/ShowComment.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Components/ShowComment.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/Pages/Components/ShowComment.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowComment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowComment.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Components/ShowComment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowComment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Components/ShowComment.vue?vue&type=template&id=409af91c&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/Pages/Components/ShowComment.vue?vue&type=template&id=409af91c& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowComment_vue_vue_type_template_id_409af91c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowComment.vue?vue&type=template&id=409af91c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Components/ShowComment.vue?vue&type=template&id=409af91c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowComment_vue_vue_type_template_id_409af91c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowComment_vue_vue_type_template_id_409af91c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

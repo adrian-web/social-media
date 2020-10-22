@@ -9,7 +9,7 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div class="p-6 sm:px-20 border-b border-gray-200 text-gray-500">
             <show-post :post="post" />
-            <show-comments :post="post" />
+            <show-comments :post="post" :comments="comments" />
             <create-comment :post="post" />
           </div>
         </div>
@@ -25,7 +25,7 @@
   import CreateComment from "./Components/CreateComment";
 
   export default {
-    props: ["post"],
+    props: ["post", "comments"],
 
     components: {
       AppLayout,

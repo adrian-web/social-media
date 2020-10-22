@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -19,6 +20,7 @@ class PostController extends Controller
     {
         return Inertia::render('Post', [
             'post' => $post,
+            'comments' => $post->comments()->get(),
         ]);
     }
 
@@ -38,10 +40,25 @@ class PostController extends Controller
         return redirect($post->path());
     }
 
+    public function update(Post $post, Request $request)
+    {
+        $request->validateWithBag('editPost', [
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+        ]);
+
+        $post->update([
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
+
+        return redirect($post->path());
+    }
+
     public function destroy(Post $post)
     {
         $post->delete();
 
-        return redirect()->route('posts', [], 303);
+        return redirect()->route('posts');
     }
 }

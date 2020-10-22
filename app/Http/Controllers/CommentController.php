@@ -28,10 +28,23 @@ class CommentController extends Controller
         return redirect($post->path());
     }
 
+    public function update(Post $post, Comment $comment, Request $request)
+    {
+        $request->validateWithBag('editComment', [
+            'body' => ['required', 'string'],
+        ]);
+
+        $comment->update([
+            'body' => $request->body,
+        ]);
+
+        return redirect($post->path());
+    }
+
     public function destroy(Post $post, Comment $comment)
     {
         $comment->delete();
 
-        return redirect($post->path(), 303);
+        return redirect($post->path());
     }
 }
