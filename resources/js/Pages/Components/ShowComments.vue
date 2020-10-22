@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3" v-if="commentsShow">
+  <div class="mt-3" v-if="showComments">
     <p class="text-lg">Comments</p>
     <div class="my-3" v-for="(comment, index) in comments" :key="comment.id">
       <div class="flex items-center text-xs">
@@ -13,6 +13,9 @@
           {{ comment.owner.name }}
         </inertia-link>
         <span class="ml-1" v-text="ago(comment)"></span>
+        <button type="button" class="ml-auto" @click="deletingComment(comment)">
+          Delete
+        </button>
       </div>
       <p class="mt-3">
         {{ comment.body }}
@@ -24,42 +27,50 @@
 
 <script>
   export default {
+    props: ["post"],
+
     data() {
       return {
         comments: "",
+        deleteCommentForm: this.$inertia.form(),
       };
     },
 
     created() {
-      this.fetch();
+      this.fetchComments();
     },
 
     mounted() {
       this.$root.$on("created-comment", () => {
-        this.fetch();
-      });
-      this.$root.$on("created-post", () => {
-        this.fetch();
+        this.fetchComments();
       });
     },
 
     methods: {
-      fetch() {
-        axios.get(this.url()).then(this.refresh);
-      },
-      url() {
-        return `${location.pathname}/comments`;
-      },
-      refresh({ data }) {
-        this.comments = data;
+      fetchComments() {
+        axios.get(route("comments.index", this.post)).then(({ data }) => {
+          this.comments = data;
+        });
       },
       ago(comment) {
         return moment(comment.created_at).fromNow();
       },
+      deletingComment(comment) {
+        this.deleteCommentForm.delete(
+          route("comments.destroy", { post: this.post, comment: comment }),
+          {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+              this.fetchComments();
+            },
+          }
+        );
+      },
     },
 
     computed: {
-      commentsShow() {
+      showComments() {
         return this.comments.length > 0;
       },
     },

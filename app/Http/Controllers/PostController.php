@@ -37,4 +37,11 @@ class PostController extends Controller
             
         return redirect($post->path());
     }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+
+        return redirect()->route('posts', [], 303);
+    }
 }

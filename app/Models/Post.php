@@ -15,6 +15,13 @@ class Post extends Model
 
     protected $appends = ['path'];
 
+    protected static function booted()
+    {
+        static::deleting(function ($post) {
+            $post->comments->each->delete();
+        });
+    }
+
     public function path()
     {
         return "/{$this->id}";

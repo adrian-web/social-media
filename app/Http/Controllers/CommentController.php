@@ -27,4 +27,11 @@ class CommentController extends Controller
             
         return redirect($post->path());
     }
+
+    public function destroy(Post $post, Comment $comment)
+    {
+        $comment->delete();
+
+        return redirect($post->path(), 303);
+    }
 }

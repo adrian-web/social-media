@@ -3155,132 +3155,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3305,15 +3179,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     switchToTeam: function switchToTeam(team) {
-      this.$inertia.put(route("current-team.update"), {
-        team_id: team.id
+      this.$inertia.put(route('current-team.update'), {
+        'team_id': team.id
       }, {
         preserveState: false
       });
     },
     logout: function logout() {
-      axios.post(route("logout").url()).then(function (response) {
-        window.location = "/";
+      axios.post(route('logout').url()).then(function (response) {
+        window.location = '/';
       });
     }
   },
@@ -3758,11 +3632,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.form.post(route("comments.store", this.post), {
-        preserveScroll: true
-      }).then(function () {
-        _this.$refs.body.focus();
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          _this.$refs.body.focus();
 
-        _this.$root.$emit("created-comment");
+          _this.$root.$emit("created-comment");
+        }
       });
     }
   }
@@ -3872,10 +3747,11 @@ __webpack_require__.r(__webpack_exports__);
     createPost: function createPost() {
       var _this = this;
 
-      this.form.post(route("posts.store")).then(function () {
-        _this.creatingPost = false;
-
-        _this.$root.$emit("created-post");
+      this.form.post(route("posts.store"), {
+        preserveState: false,
+        onSuccess: function onSuccess() {
+          _this.creatingPost = false;
+        }
       });
     }
   }
@@ -3937,42 +3813,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["post"],
   data: function data() {
     return {
-      comments: ""
+      comments: "",
+      deleteCommentForm: this.$inertia.form()
     };
   },
   created: function created() {
-    this.fetch();
+    this.fetchComments();
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$root.$on("created-comment", function () {
-      _this.fetch();
-    });
-    this.$root.$on("created-post", function () {
-      _this.fetch();
+      _this.fetchComments();
     });
   },
   methods: {
-    fetch: function fetch() {
-      axios.get(this.url()).then(this.refresh);
-    },
-    url: function url() {
-      return "".concat(location.pathname, "/comments");
-    },
-    refresh: function refresh(_ref) {
-      var data = _ref.data;
-      this.comments = data;
+    fetchComments: function fetchComments() {
+      var _this2 = this;
+
+      axios.get(route("comments.index", this.post)).then(function (_ref) {
+        var data = _ref.data;
+        _this2.comments = data;
+      });
     },
     ago: function ago(comment) {
       return moment(comment.created_at).fromNow();
+    },
+    deletingComment: function deletingComment(comment) {
+      var _this3 = this;
+
+      this.deleteCommentForm["delete"](route("comments.destroy", {
+        post: this.post,
+        comment: comment
+      }), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: function onSuccess() {
+          _this3.fetchComments();
+        }
+      });
     }
   },
   computed: {
-    commentsShow: function commentsShow() {
+    showComments: function showComments() {
       return this.comments.length > 0;
     }
   }
@@ -4009,8 +3899,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["post"]
+  props: ["post"],
+  data: function data() {
+    return {
+      deletePostForm: this.$inertia.form()
+    };
+  },
+  methods: {
+    deletingPost: function deletingPost() {
+      this.deletePostForm["delete"](route("posts.destroy", this.post));
+    }
+  }
 });
 
 /***/ }),
@@ -25483,18 +25390,26 @@ var render = function() {
                               active: _vm.$page.currentRouteName == "dashboard"
                             }
                           },
-                          [_vm._v("\n              Dashboard\n            ")]
+                          [
+                            _vm._v(
+                              "\n                            Dashboard\n                        "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
                           "jet-nav-link",
                           {
                             attrs: {
-                              href: _vm.route("timeline"),
-                              active: _vm.$page.currentRouteName == "timeline"
+                              href: _vm.route("posts"),
+                              active: _vm.$page.currentRouteName == "posts"
                             }
                           },
-                          [_vm._v("\n              Timeline\n            ")]
+                          [
+                            _vm._v(
+                              "\n                            Posts\n                        "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
@@ -25505,7 +25420,11 @@ var render = function() {
                               active: _vm.$page.currentRouteName == "activity"
                             }
                           },
-                          [_vm._v("\n              Activity\n            ")]
+                          [
+                            _vm._v(
+                              "\n                            Activity\n                        "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c("create-post")
@@ -25610,7 +25529,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                  Manage Account\n                "
+                                            "\n                                    Manage Account\n                                "
                                           )
                                         ]
                                       ),
@@ -25624,7 +25543,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                  Profile\n                "
+                                            "\n                                    Profile\n                                "
                                           )
                                         ]
                                       ),
@@ -25641,7 +25560,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                  API Tokens\n                "
+                                                "\n                                    API Tokens\n                                "
                                               )
                                             ]
                                           )
@@ -25661,7 +25580,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                    Manage Team\n                  "
+                                                  "\n                                        Manage Team\n                                    "
                                                 )
                                               ]
                                             ),
@@ -25678,7 +25597,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                    Team Settings\n                  "
+                                                  "\n                                        Team Settings\n                                    "
                                                 )
                                               ]
                                             ),
@@ -25695,7 +25614,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                    Create New Team\n                  "
+                                                      "\n                                        Create New Team\n                                    "
                                                     )
                                                   ]
                                                 )
@@ -25714,7 +25633,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                    Switch Teams\n                  "
+                                                  "\n                                        Switch Teams\n                                    "
                                                 )
                                               ]
                                             ),
@@ -25829,7 +25748,11 @@ var render = function() {
                                           _c(
                                             "jet-dropdown-link",
                                             { attrs: { as: "button" } },
-                                            [_vm._v(" Logout ")]
+                                            [
+                                              _vm._v(
+                                                "\n                                        Logout\n                                    "
+                                              )
+                                            ]
                                           )
                                         ],
                                         1
@@ -25841,7 +25764,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              2549602216
+                              1357054056
                             )
                           })
                         ],
@@ -25934,18 +25857,22 @@ var render = function() {
                           active: _vm.$page.currentRouteName == "dashboard"
                         }
                       },
-                      [_vm._v("\n          Dashboard\n        ")]
+                      [
+                        _vm._v(
+                          "\n                    Dashboard\n                "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
                       "jet-responsive-nav-link",
                       {
                         attrs: {
-                          href: _vm.route("timeline"),
-                          active: _vm.$page.currentRouteName == "timeline"
+                          href: _vm.route("posts"),
+                          active: _vm.$page.currentRouteName == "posts"
                         }
                       },
-                      [_vm._v("\n          Timeline\n        ")]
+                      [_vm._v("\n                    Posts\n                ")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -25956,7 +25883,11 @@ var render = function() {
                           active: _vm.$page.currentRouteName == "activity"
                         }
                       },
-                      [_vm._v("\n          Activity\n        ")]
+                      [
+                        _vm._v(
+                          "\n                    Activity\n                "
+                        )
+                      ]
                     )
                   ],
                   1
@@ -25983,25 +25914,13 @@ var render = function() {
                           {
                             staticClass: "font-medium text-base text-gray-800"
                           },
-                          [
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(_vm.$page.user.name) +
-                                "\n            "
-                            )
-                          ]
+                          [_vm._v(_vm._s(_vm.$page.user.name))]
                         ),
                         _vm._v(" "),
                         _c(
                           "div",
                           { staticClass: "font-medium text-sm text-gray-500" },
-                          [
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(_vm.$page.user.email) +
-                                "\n            "
-                            )
-                          ]
+                          [_vm._v(_vm._s(_vm.$page.user.email))]
                         )
                       ])
                     ]),
@@ -26019,7 +25938,11 @@ var render = function() {
                                 _vm.$page.currentRouteName == "profile.show"
                             }
                           },
-                          [_vm._v("\n            Profile\n          ")]
+                          [
+                            _vm._v(
+                              "\n                        Profile\n                    "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _vm.$page.jetstream.hasApiFeatures
@@ -26033,7 +25956,11 @@ var render = function() {
                                     "api-tokens.index"
                                 }
                               },
-                              [_vm._v("\n            API Tokens\n          ")]
+                              [
+                                _vm._v(
+                                  "\n                        API Tokens\n                    "
+                                )
+                              ]
                             )
                           : _vm._e(),
                         _vm._v(" "),
@@ -26052,7 +25979,11 @@ var render = function() {
                             _c(
                               "jet-responsive-nav-link",
                               { attrs: { as: "button" } },
-                              [_vm._v("\n              Logout\n            ")]
+                              [
+                                _vm._v(
+                                  "\n                            Logout\n                        "
+                                )
+                              ]
                             )
                           ],
                           1
@@ -26072,7 +26003,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n              Manage Team\n            "
+                                    "\n                            Manage Team\n                        "
                                   )
                                 ]
                               ),
@@ -26091,7 +26022,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n              Team Settings\n            "
+                                    "\n                            Team Settings\n                        "
                                   )
                                 ]
                               ),
@@ -26108,7 +26039,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n              Create New Team\n            "
+                                    "\n                            Create New Team\n                        "
                                   )
                                 ]
                               ),
@@ -26125,7 +26056,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n              Switch Teams\n            "
+                                    "\n                            Switch Teams\n                        "
                                   )
                                 ]
                               ),
@@ -27307,7 +27238,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.commentsShow
+  return _vm.showComments
     ? _c(
         "div",
         { staticClass: "mt-3" },
@@ -27346,7 +27277,21 @@ var render = function() {
                   _c("span", {
                     staticClass: "ml-1",
                     domProps: { textContent: _vm._s(_vm.ago(comment)) }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "ml-auto",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deletingComment(comment)
+                        }
+                      }
+                    },
+                    [_vm._v("\n        Delete\n      ")]
+                  )
                 ],
                 1
               ),
@@ -27388,28 +27333,50 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("article", [
-    _c("div", { staticClass: "flex flex-col" }, [
-      _c("h4", { staticClass: "font-medium text-lg" }, [
-        _vm._v("\n      " + _vm._s(_vm.post.title) + "\n    ")
+    _c("div", { staticClass: "flex" }, [
+      _c("div", { staticClass: "flex flex-col" }, [
+        _c("h4", { staticClass: "font-medium text-lg" }, [
+          _vm._v("\n        " + _vm._s(_vm.post.title) + "\n      ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "h6",
+          { staticClass: "mt-1 text-xs" },
+          [
+            _c("span", [_vm._v("created by")]),
+            _vm._v(" "),
+            _c(
+              "inertia-link",
+              {
+                staticClass: "hover:underline",
+                attrs: { href: _vm.post.creator.path }
+              },
+              [
+                _vm._v(
+                  "\n          " + _vm._s(_vm.post.creator.name) + "\n        "
+                )
+              ]
+            )
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
-      _c(
-        "h6",
-        { staticClass: "mt-1 text-xs" },
-        [
-          _c("span", [_vm._v("created by")]),
-          _vm._v(" "),
-          _c(
-            "inertia-link",
-            {
-              staticClass: "hover:underline",
-              attrs: { href: _vm.post.creator.path }
-            },
-            [_vm._v("\n        " + _vm._s(_vm.post.creator.name) + "\n      ")]
-          )
-        ],
-        1
-      )
+      _c("div", { staticClass: "contents" }, [
+        _c(
+          "button",
+          {
+            staticClass: "ml-auto",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.deletingPost()
+              }
+            }
+          },
+          [_vm._v("\n        Delete\n      ")]
+        )
+      ])
     ]),
     _vm._v(" "),
     _c("h5", { staticClass: "mt-3" }, [
@@ -27612,7 +27579,7 @@ var render = function() {
                 [
                   _c("show-post", { attrs: { post: _vm.post } }),
                   _vm._v(" "),
-                  _c("show-comments"),
+                  _c("show-comments", { attrs: { post: _vm.post } }),
                   _vm._v(" "),
                   _c("create-comment", { attrs: { post: _vm.post } })
                 ],

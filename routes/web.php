@@ -24,11 +24,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/', [PostController::class, 'index'])->name('timeline');
+Route::get('/', [PostController::class, 'index'])->name('posts');
 Route::post('/', [PostController::class, 'store'])->name('posts.store');
 Route::get('/{post}', [PostController::class, 'show']);
+Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-Route::get('/{post}/comments', [CommentController::class, 'index']);
+Route::get('/{post}/comments', [CommentController::class, 'index'])->name('comments.index');
 Route::post('/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::delete('/{post}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 Route::get('/activity/{user}', [UserController::class, 'show'])->name('activity');

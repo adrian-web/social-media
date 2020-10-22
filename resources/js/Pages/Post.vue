@@ -9,7 +9,7 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div class="p-6 sm:px-20 border-b border-gray-200 text-gray-500">
             <show-post :post="post" />
-            <show-comments />
+            <show-comments :post="post" />
             <create-comment :post="post" />
           </div>
         </div>

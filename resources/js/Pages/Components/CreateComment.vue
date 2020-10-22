@@ -55,14 +55,13 @@
 
     methods: {
       createComment() {
-        this.form
-          .post(route("comments.store", this.post), {
-            preserveScroll: true,
-          })
-          .then(() => {
+        this.form.post(route("comments.store", this.post), {
+          preserveScroll: true,
+          onSuccess: () => {
             this.$refs.body.focus();
             this.$root.$emit("created-comment");
-          });
+          },
+        });
       },
     },
   };

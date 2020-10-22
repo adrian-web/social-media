@@ -89,9 +89,11 @@
 
     methods: {
       createPost() {
-        this.form.post(route("posts.store")).then(() => {
-          this.creatingPost = false;
-          this.$root.$emit("created-post");
+        this.form.post(route("posts.store"), {
+          preserveState: false,
+          onSuccess: () => {
+            this.creatingPost = false;
+          },
         });
       },
     },
