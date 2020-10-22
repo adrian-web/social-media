@@ -13,6 +13,8 @@ class Post extends Model
 
     protected $with = ['creator'];
 
+    protected $withCount = ['comments'];
+
     protected $appends = ['path'];
 
     protected static function booted()

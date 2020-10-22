@@ -21,11 +21,11 @@
   import ShowPosts from "./Components/ShowPosts";
 
   export default {
-    props: ["posts"],
-
     components: {
       AppLayout,
       ShowPosts,
     },
+
+    props: ["posts"],
   };
 </script>

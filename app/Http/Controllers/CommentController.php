@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index(Post $post)
-    {
-        return $post->comments()->get();
-    }
-
     public function store(Post $post, Request $request)
     {
         $request->validateWithBag('createComment', [
@@ -25,7 +20,7 @@ class CommentController extends Controller
             'body' => $request->body,
         ]);
             
-        return redirect($post->path());
+        return back();
     }
 
     public function update(Post $post, Comment $comment, Request $request)
@@ -38,13 +33,13 @@ class CommentController extends Controller
             'body' => $request->body,
         ]);
 
-        return redirect($post->path());
+        return back();
     }
 
     public function destroy(Post $post, Comment $comment)
     {
         $comment->delete();
 
-        return redirect($post->path());
+        return back();
     }
 }

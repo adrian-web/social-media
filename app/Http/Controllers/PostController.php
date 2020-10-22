@@ -12,7 +12,7 @@ class PostController extends Controller
     public function index()
     {
         return Inertia::render('Posts', [
-            'posts' => Post::orderBy('created_at', 'desc')->get(),
+            'posts' => Post::orderBy('created_at', 'desc')->simplePaginate(10),
         ]);
     }
 
@@ -20,7 +20,7 @@ class PostController extends Controller
     {
         return Inertia::render('Post', [
             'post' => $post,
-            'comments' => $post->comments()->get(),
+            'comments' => $post->comments()->simplePaginate(5),
         ]);
     }
 
@@ -52,7 +52,7 @@ class PostController extends Controller
             'body' => $request->body,
         ]);
 
-        return redirect($post->path());
+        return back();
     }
 
     public function destroy(Post $post)

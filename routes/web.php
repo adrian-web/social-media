@@ -30,7 +30,6 @@ Route::get('/{post}', [PostController::class, 'show']);
 Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-Route::get('/{post}/comments', [CommentController::class, 'index'])->name('comments.index');
 Route::post('/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::put('/{post}/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
 Route::delete('/{post}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
