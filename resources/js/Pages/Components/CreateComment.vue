@@ -47,6 +47,7 @@
           },
           {
             bag: "createComment",
+            resetOnSuccess: true,
           }
         ),
       };

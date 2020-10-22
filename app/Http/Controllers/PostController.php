@@ -11,7 +11,7 @@ class PostController extends Controller
     public function index()
     {
         return Inertia::render('Posts', [
-            'posts' => Post::all(),
+            'posts' => Post::orderBy('created_at', 'desc')->get(),
         ]);
     }
 
@@ -20,5 +20,21 @@ class PostController extends Controller
         return Inertia::render('Post', [
             'post' => $post,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validateWithBag('createPost', [
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+        ]);
+
+        $post = Post::create([
+            'user_id' => auth()->id(),
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
+            
+        return redirect($post->path());
     }
 }

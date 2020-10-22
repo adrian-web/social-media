@@ -14,9 +14,12 @@
 Social-media app with Laravel 8, Vue.js, Inertia.js & Tailwind CSS.
 
 Features list
+- models including: Post, Comments
+- create comment to a post (Vue.js & Inertia.js)
+- create post w/ modal (Vue.js & Inertia.js)
 
 To-do list
-- models including: Post, Comments, Favorite, Follow, Activity
+- models including: Favorite, Follow, Activity
 - real-time chat with another user/users (pusher.js + Laravel Echo ?)
 - create, edit, delete posts and comments
 - upload image or embed video to post (comments too ?)

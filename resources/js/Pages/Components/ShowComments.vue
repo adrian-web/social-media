@@ -38,6 +38,9 @@
       this.$root.$on("created-comment", () => {
         this.fetch();
       });
+      this.$root.$on("created-post", () => {
+        this.fetch();
+      });
     },
 
     methods: {

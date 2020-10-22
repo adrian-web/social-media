@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-100">
-        <nav class="bg-white border-b border-gray-100">
+        <nav class="bg-white border-b border-gray-100" v-if="$page.user !== null">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -23,6 +23,7 @@
                             <jet-nav-link :href="$page.user.path" :active="$page.currentRouteName == 'activity'">
                                 Activity
                             </jet-nav-link>
+                            <create-post />
                         </div>
                     </div>
 
@@ -203,6 +204,15 @@
                 </div>
             </div>
         </nav>
+        <nav class="bg-white border-b border-gray-100" v-else>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-end items-center h-16">
+                    <a :href="route('login')" class="text-sm text-gray-700 underline">Login</a>
+
+                    <a :href="route('register')" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                </div>
+            </div>
+        </nav>
 
         <!-- Page Heading -->
         <header class="bg-white shadow">
@@ -229,6 +239,7 @@
     import JetDropdownLink from './../Jetstream/DropdownLink'
     import JetNavLink from './../Jetstream/NavLink'
     import JetResponsiveNavLink from './../Jetstream/ResponsiveNavLink'
+    import CreatePost from './../Pages/Components/CreatePost'
 
     export default {
         components: {
@@ -238,6 +249,7 @@
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
+            CreatePost,
         },
 
         data() {

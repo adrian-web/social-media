@@ -25,6 +25,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/', [PostController::class, 'index'])->name('timeline');
+Route::post('/', [PostController::class, 'store'])->name('posts.store');
 Route::get('/{post}', [PostController::class, 'show']);
 
 Route::get('/{post}/comments', [CommentController::class, 'index']);
