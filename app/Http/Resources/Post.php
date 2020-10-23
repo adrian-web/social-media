@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\User as UserResource;
-use App\Models\Post as ModelsPost;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Post extends JsonResource
@@ -25,8 +24,8 @@ class Post extends JsonResource
             'comments_count' => $this->comments_count,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'update_post' => auth()->user()->can('update', ModelsPost::find($this->id)),
-            'delete_post' => auth()->user()->can('delete', ModelsPost::find($this->id)),
+            'update_post' => auth()->user()->can('update', $this->resource),
+            'delete_post' => auth()->user()->can('delete', $this->resource),
         ];
     }
 }

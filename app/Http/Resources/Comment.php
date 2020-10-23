@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Post as PostResource;
-use App\Models\Comment as ModelsComment;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Comment extends JsonResource
@@ -24,8 +23,8 @@ class Comment extends JsonResource
             'post' => (new PostResource($this->post)),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'update_comment' => auth()->user()->can('update', ModelsComment::find($this->id)),
-            'delete_comment' => auth()->user()->can('delete', ModelsComment::find($this->id)),
+            'update_comment' => auth()->user()->can('update', $this->resource),
+            'delete_comment' => auth()->user()->can('delete', $this->resource),
         ];
     }
 }
