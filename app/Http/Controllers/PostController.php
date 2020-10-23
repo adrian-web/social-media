@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Http\Resources\Post as PostResource;
+use App\Http\Resources\Comment as CommentResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -12,15 +13,15 @@ class PostController extends Controller
     public function index()
     {
         return Inertia::render('Posts', [
-            'posts' => Post::orderBy('created_at', 'desc')->simplePaginate(10),
+            'posts' => PostResource::collection(Post::orderBy('created_at', 'desc')->simplePaginate(10)),
         ]);
     }
 
     public function show(Post $post)
     {
         return Inertia::render('Post', [
-            'post' => $post,
-            'comments' => $post->comments()->simplePaginate(5),
+            'post' => (new PostResource($post)),
+            'comments' => CommentResource::collection($post->comments()->simplePaginate(5)),
         ]);
     }
 

@@ -3919,6 +3919,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3932,7 +3938,7 @@ __webpack_require__.r(__webpack_exports__);
     JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__["default"],
     JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
-  props: ["comment"],
+  props: ["comment", "index"],
   data: function data() {
     return {
       deleteCommentForm: this.$inertia.form(),
@@ -4006,9 +4012,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4022,7 +4025,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.post.comments_count > 0;
     },
     showPaginator: function showPaginator() {
-      return this.comments.prev_page_url != null || this.comments.next_page_url != null;
+      return this.comments.links.prev != null || this.comments.links.next != null;
     }
   }
 });
@@ -4043,6 +4046,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
 /* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
 /* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4211,6 +4219,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4299,12 +4309,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["post", "comments"],
+  props: ["can", "post", "comments"],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     ShowPost: _Components_ShowPost__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -23987,7 +24001,7 @@ var render = function() {
       attrs: { role: "navigation", "aria-label": "Pagination Navigation" }
     },
     [
-      _vm.collection.current_page == 1
+      _vm.collection.meta.current_page == 1
         ? _c(
             "span",
             {
@@ -24001,18 +24015,18 @@ var render = function() {
             {
               staticClass:
                 "relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150",
-              attrs: { href: _vm.collection.prev_page_url, rel: "prev" }
+              attrs: { href: _vm.collection.links.prev, rel: "prev" }
             },
             [_vm._v("\n    prev\n  ")]
           ),
       _vm._v(" "),
-      _vm.collection.next_page_url != null
+      _vm.collection.links.next != null
         ? _c(
             "inertia-link",
             {
               staticClass:
                 "relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150",
-              attrs: { href: _vm.collection.next_page_url, rel: "next" }
+              attrs: { href: _vm.collection.links.next, rel: "next" }
             },
             [_vm._v("\n    next\n  ")]
           )
@@ -27270,7 +27284,7 @@ var render = function() {
                 },
                 [
                   _c("show-activity", {
-                    attrs: { profileUser: _vm.profileUser }
+                    attrs: { profileUser: _vm.profileUser.data }
                   })
                 ],
                 1
@@ -27573,196 +27587,211 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: !_vm.editing,
-            expression: "!editing"
-          }
-        ],
-        staticClass: "flex items-center"
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "flex" },
-          [
-            _c("img", {
-              staticClass: "h-6 w-6 rounded-full object-cover",
-              attrs: {
-                src: _vm.comment.owner.profile_photo_url,
-                alt: _vm.comment.owner.name
-              }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "mx-1 text-xs" }, [_vm._v("posted by")]),
-            _vm._v(" "),
-            _c(
-              "inertia-link",
-              {
-                staticClass: "hover:underline text-xs",
-                attrs: { href: _vm.comment.owner.path }
-              },
-              [
-                _vm._v(
-                  "\n        " + _vm._s(_vm.comment.owner.name) + "\n      "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("span", {
-              staticClass: "ml-1 text-xs",
-              domProps: { textContent: _vm._s(_vm.ago(_vm.comment)) }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "flex ml-auto" }, [
-          _c(
-            "button",
+  return _c(
+    "div",
+    {
+      staticClass: "p-3 shadow-sm rounded-sm",
+      class: { "mt-2": _vm.index != 0 }
+    },
+    [
+      _c(
+        "div",
+        {
+          directives: [
             {
-              staticClass: "ml-auto",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  _vm.editing = !_vm.editing
-                }
-              }
-            },
-            [_c("span", { staticClass: "fa fa-chevron-down" })]
-          )
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: !_vm.editing,
-            expression: "!editing"
-          }
-        ],
-        staticClass: "mt-3"
-      },
-      [_vm._v("\n    " + _vm._s(_vm.comment.body) + "\n  ")]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.editing,
-            expression: "editing"
-          }
-        ],
-        staticClass: "mt-1"
-      },
-      [
-        _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.editingComment($event)
-              }
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.editing,
+              expression: "!editing"
             }
-          },
-          [
-            _c("jet-label", {
-              staticClass: "mt-2",
-              attrs: { for: "body", value: "Body" }
-            }),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
+          ],
+          staticClass: "flex items-center"
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "flex" },
+            [
+              _c("img", {
+                staticClass: "h-6 w-6 rounded-full object-cover",
+                attrs: {
+                  src: _vm.comment.owner.profile_photo_url,
+                  alt: _vm.comment.owner.name
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "mx-1 text-xs" }, [
+                _vm._v("posted by")
+              ]),
+              _vm._v(" "),
+              _c(
+                "inertia-link",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.editCommentForm.body,
-                  expression: "editCommentForm.body"
-                }
-              ],
-              staticClass:
-                "form-textarea rounded-md shadow-sm mt-1 block w-full",
-              attrs: { id: "body", rows: "5", required: "" },
-              domProps: { value: _vm.editCommentForm.body },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.editCommentForm, "body", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("jet-input-error", {
-              staticClass: "mt-2",
-              attrs: { message: _vm.editCommentForm.error("body") }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "flex mt-2" },
-              [
-                _c(
-                  "jet-secondary-button",
+                  staticClass: "hover:underline text-xs",
+                  attrs: { href: _vm.comment.owner.path }
+                },
+                [
+                  _vm._v(
+                    "\n        " + _vm._s(_vm.comment.owner.name) + "\n      "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("span", {
+                staticClass: "ml-1 text-xs",
+                domProps: { textContent: _vm._s(_vm.ago(_vm.comment)) }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex ml-auto" }, [
+            _vm.comment.update_comment
+              ? _c(
+                  "button",
                   {
-                    nativeOn: {
+                    staticClass: "ml-auto",
+                    attrs: { type: "button" },
+                    on: {
                       click: function($event) {
-                        return _vm.editingClose($event)
+                        _vm.editing = !_vm.editing
                       }
                     }
                   },
-                  [_vm._v("\n          Cancel\n        ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "jet-button",
-                  {
-                    staticClass: "ml-2",
-                    class: { "opacity-25": _vm.editCommentForm.processing },
-                    attrs: { disabled: _vm.editCommentForm.processing }
-                  },
-                  [_vm._v("\n          Update\n        ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "text-xl ml-auto",
-                    class: { "opacity-25": _vm.deleteCommentForm.processing },
-                    attrs: {
-                      type: "button",
-                      disabled: _vm.deleteCommentForm.processing
-                    },
-                    on: { click: _vm.deletingComment }
-                  },
-                  [_c("span", { staticClass: "fa fa-trash-o" })]
+                  [_c("span", { staticClass: "fa fa-chevron-down" })]
                 )
-              ],
-              1
-            )
+              : _vm._e()
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.editing,
+              expression: "!editing"
+            }
           ],
-          1
-        )
-      ]
-    )
-  ])
+          staticClass: "mt-3"
+        },
+        [_vm._v("\n    " + _vm._s(_vm.comment.body) + "\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.editing,
+              expression: "editing"
+            }
+          ],
+          staticClass: "mt-1"
+        },
+        [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.editingComment($event)
+                }
+              }
+            },
+            [
+              _c("jet-label", {
+                staticClass: "mt-2",
+                attrs: { for: "body", value: "Body" }
+              }),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.editCommentForm.body,
+                    expression: "editCommentForm.body"
+                  }
+                ],
+                staticClass:
+                  "form-textarea rounded-md shadow-sm mt-1 block w-full",
+                attrs: { id: "body", rows: "5", required: "" },
+                domProps: { value: _vm.editCommentForm.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.editCommentForm, "body", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("jet-input-error", {
+                staticClass: "mt-2",
+                attrs: { message: _vm.editCommentForm.error("body") }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex mt-2" },
+                [
+                  _c(
+                    "jet-secondary-button",
+                    {
+                      nativeOn: {
+                        click: function($event) {
+                          return _vm.editingClose($event)
+                        }
+                      }
+                    },
+                    [_vm._v("\n          Cancel\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "jet-button",
+                    {
+                      staticClass: "ml-2",
+                      class: { "opacity-25": _vm.editCommentForm.processing },
+                      attrs: { disabled: _vm.editCommentForm.processing }
+                    },
+                    [_vm._v("\n          Update\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _vm.comment.delete_comment
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "text-xl ml-auto",
+                          class: {
+                            "opacity-25": _vm.deleteCommentForm.processing
+                          },
+                          attrs: {
+                            type: "button",
+                            disabled: _vm.deleteCommentForm.processing
+                          },
+                          on: { click: _vm.deletingComment }
+                        },
+                        [_c("span", { staticClass: "fa fa-trash-o" })]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -27789,23 +27818,13 @@ var render = function() {
   return _vm.showComments
     ? _c(
         "div",
-        { staticClass: "mt-3" },
+        { staticClass: "my-3" },
         [
-          _c("p", { staticClass: "text-lg" }, [_vm._v("Comments")]),
-          _vm._v(" "),
           _vm._l(_vm.comments.data, function(comment, index) {
-            return _c(
-              "div",
-              { key: comment.id, staticClass: "my-3" },
-              [
-                _c("show-comment", { attrs: { comment: comment } }),
-                _vm._v(" "),
-                index != _vm.comments.data.length - 1
-                  ? _c("hr", { staticClass: "my-3" })
-                  : _vm._e()
-              ],
-              1
-            )
+            return _c("show-comment", {
+              key: comment.id,
+              attrs: { comment: comment, index: index }
+            })
           }),
           _vm._v(" "),
           _c("paginator", {
@@ -27885,18 +27904,20 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "flex items-start ml-auto" }, [
-          _c(
-            "button",
-            {
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  _vm.editing = !_vm.editing
-                }
-              }
-            },
-            [_c("span", { staticClass: "fa fa-chevron-down" })]
-          )
+          _vm.post.update_post
+            ? _c(
+                "button",
+                {
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.editing = !_vm.editing
+                    }
+                  }
+                },
+                [_c("span", { staticClass: "fa fa-chevron-down" })]
+              )
+            : _vm._e()
         ])
       ]
     ),
@@ -28020,19 +28041,21 @@ var render = function() {
                   [_vm._v("\n          Update\n        ")]
                 ),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "text-xl ml-auto",
-                    class: { "opacity-25": _vm.deletePostForm.processing },
-                    attrs: {
-                      type: "button",
-                      disabled: _vm.deletePostForm.processing
-                    },
-                    on: { click: _vm.deletingPost }
-                  },
-                  [_c("span", { staticClass: "fa fa-trash-o" })]
-                )
+                _vm.post.delete_post
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "text-xl ml-auto",
+                        class: { "opacity-25": _vm.deletePostForm.processing },
+                        attrs: {
+                          type: "button",
+                          disabled: _vm.deletePostForm.processing
+                        },
+                        on: { click: _vm.deletingPost }
+                      },
+                      [_c("span", { staticClass: "fa fa-trash-o" })]
+                    )
+                  : _vm._e()
               ],
               1
             )
@@ -28068,56 +28091,58 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._l(_vm.posts.data, function(post, index) {
-        return _c("div", { key: post.id }, [
-          _c("div", { staticClass: "flex flex-col" }, [
-            _c(
-              "div",
-              { staticClass: "font-medium text-lg" },
-              [
-                _c(
-                  "inertia-link",
-                  {
-                    staticClass: "hover:underline",
-                    attrs: { href: post.path }
-                  },
-                  [_vm._v("\n          " + _vm._s(post.title) + "\n        ")]
-                )
-              ],
-              1
-            ),
+      _vm._l(_vm.posts.data, function(post) {
+        return _c(
+          "div",
+          { key: post.id, staticClass: "my-2 p-3 shadow-md rounded-md" },
+          [
+            _c("div", { staticClass: "flex flex-col" }, [
+              _c(
+                "div",
+                { staticClass: "font-medium text-lg" },
+                [
+                  _c(
+                    "inertia-link",
+                    {
+                      staticClass: "hover:underline",
+                      attrs: { href: post.path }
+                    },
+                    [_vm._v("\n          " + _vm._s(post.title) + "\n        ")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "mt-1 text-xs" },
+                [
+                  _c("span", [_vm._v("created by")]),
+                  _vm._v(" "),
+                  _c(
+                    "inertia-link",
+                    {
+                      staticClass: "hover:underline",
+                      attrs: { href: post.creator.path }
+                    },
+                    [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(post.creator.name) +
+                          "\n        "
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ]),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "mt-1 text-xs" },
-              [
-                _c("span", [_vm._v("created by")]),
-                _vm._v(" "),
-                _c(
-                  "inertia-link",
-                  {
-                    staticClass: "hover:underline",
-                    attrs: { href: post.creator.path }
-                  },
-                  [
-                    _vm._v(
-                      "\n          " + _vm._s(post.creator.name) + "\n        "
-                    )
-                  ]
-                )
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mt-3" }, [
-            _vm._v("\n      " + _vm._s(post.body) + "\n    ")
-          ]),
-          _vm._v(" "),
-          index != _vm.posts.data.length - 1
-            ? _c("hr", { staticClass: "my-3" })
-            : _vm._e()
-        ])
+            _c("div", { staticClass: "mt-3" }, [
+              _vm._v("\n      " + _vm._s(post.body) + "\n    ")
+            ])
+          ]
+        )
       }),
       _vm._v(" "),
       _c("paginator", {
@@ -28246,13 +28271,17 @@ var render = function() {
                     "p-6 sm:px-20 border-b border-gray-200 text-gray-500"
                 },
                 [
-                  _c("show-post", { attrs: { post: _vm.post } }),
-                  _vm._v(" "),
-                  _c("show-comments", {
-                    attrs: { post: _vm.post, comments: _vm.comments }
+                  _c("show-post", {
+                    key: _vm.post.data.id,
+                    attrs: { post: _vm.post.data }
                   }),
                   _vm._v(" "),
-                  _c("create-comment", { attrs: { post: _vm.post } })
+                  _c("show-comments", {
+                    key: _vm.post.data.id,
+                    attrs: { post: _vm.post.data, comments: _vm.comments }
+                  }),
+                  _vm._v(" "),
+                  _c("create-comment", { attrs: { post: _vm.post.data } })
                 ],
                 1
               )

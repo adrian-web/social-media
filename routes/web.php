@@ -25,13 +25,16 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/', [PostController::class, 'index'])->name('posts');
-Route::post('/', [PostController::class, 'store'])->name('posts.store');
 Route::get('/{post}', [PostController::class, 'show']);
-Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
-Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-Route::post('/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
-Route::put('/{post}/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
-Route::delete('/{post}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/', [PostController::class, 'store'])->name('posts.store');
+    Route::put('/{post}', [PostController::class, 'update'])->name('posts.update')->middleware('can:update,post');
+    Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('can:delete,post');
+
+    Route::post('/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::put('/{post}/comments/{comment}', [CommentController::class, 'update'])->name('comments.update')->middleware('can:update,comment');
+    Route::delete('/{post}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('can:delete,comment');
+});
 
 Route::get('/activity/{user}', [UserController::class, 'show'])->name('activity');

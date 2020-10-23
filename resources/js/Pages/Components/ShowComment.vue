@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-3 shadow-sm rounded-sm" :class="{ 'mt-2': index != 0 }">
     <div class="flex items-center" v-show="!editing">
       <div class="flex">
         <img
@@ -18,7 +18,12 @@
       </div>
 
       <div class="flex ml-auto">
-        <button type="button" class="ml-auto" @click="editing = !editing">
+        <button
+          v-if="comment.update_comment"
+          type="button"
+          class="ml-auto"
+          @click="editing = !editing"
+        >
           <span class="fa fa-chevron-down"></span>
         </button>
       </div>
@@ -56,6 +61,7 @@
             Update
           </jet-button>
           <button
+            v-if="comment.delete_comment"
             type="button"
             class="text-xl ml-auto"
             :class="{ 'opacity-25': deleteCommentForm.processing }"
@@ -86,7 +92,7 @@
       JetButton,
     },
 
-    props: ["comment"],
+    props: ["comment", "index"],
 
     data() {
       return {

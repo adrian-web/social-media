@@ -1,14 +1,11 @@
 <template>
-  <div class="mt-3" v-if="showComments">
-    <p class="text-lg">Comments</p>
-    <div
-      class="my-3"
+  <div class="my-3" v-if="showComments">
+    <show-comment
       v-for="(comment, index) in comments.data"
+      :comment="comment"
+      :index="index"
       :key="comment.id"
-    >
-      <show-comment :comment="comment" />
-      <hr class="my-3" v-if="index != comments.data.length - 1" />
-    </div>
+    />
     <paginator :collection="comments" :show="showPaginator" class="mt-2" />
   </div>
 </template>
@@ -31,8 +28,7 @@
       },
       showPaginator() {
         return (
-          this.comments.prev_page_url != null ||
-          this.comments.next_page_url != null
+          this.comments.links.prev != null || this.comments.links.next != null
         );
       },
     },

@@ -7,7 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class TimelineSeeder extends Seeder
+class PostsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,14 +17,14 @@ class TimelineSeeder extends Seeder
     public function run()
     {
         Post::factory()
-            ->count(10)
+            ->count(50)
             ->create();
 
         $posts = Post::all();
 
         foreach ($posts as $post) {
             Comment::factory()
-                ->count(rand(0, 5))
+                ->count(rand(0, 10))
                 ->create(['post_id' => $post->id]);
         }
 

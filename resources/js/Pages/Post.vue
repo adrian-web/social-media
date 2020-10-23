@@ -8,9 +8,13 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div class="p-6 sm:px-20 border-b border-gray-200 text-gray-500">
-            <show-post :post="post" />
-            <show-comments :post="post" :comments="comments" />
-            <create-comment :post="post" />
+            <show-post :post="post.data" :key="post.data.id" />
+            <show-comments
+              :post="post.data"
+              :key="post.data.id"
+              :comments="comments"
+            />
+            <create-comment :post="post.data" />
           </div>
         </div>
       </div>
@@ -25,7 +29,7 @@
   import CreateComment from "./Components/CreateComment";
 
   export default {
-    props: ["post", "comments"],
+    props: ["can", "post", "comments"],
 
     components: {
       AppLayout,

@@ -13,7 +13,11 @@
         </div>
       </div>
       <div class="flex items-start ml-auto">
-        <button type="button" @click="editing = !editing">
+        <button
+          v-if="post.update_post"
+          type="button"
+          @click="editing = !editing"
+        >
           <span class="fa fa-chevron-down"></span>
         </button>
       </div>
@@ -58,6 +62,7 @@
             Update
           </jet-button>
           <button
+            v-if="post.delete_post"
             type="button"
             class="text-xl ml-auto"
             :class="{ 'opacity-25': deletePostForm.processing }"

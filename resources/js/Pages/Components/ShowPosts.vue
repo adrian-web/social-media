@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-for="(post, index) in posts.data" :key="post.id">
+    <div
+      class="my-2 p-3 shadow-md rounded-md"
+      v-for="post in posts.data"
+      :key="post.id"
+    >
       <div class="flex flex-col">
         <div class="font-medium text-lg">
           <inertia-link class="hover:underline" :href="post.path">
@@ -18,8 +22,6 @@
       <div class="mt-3">
         {{ post.body }}
       </div>
-
-      <hr class="my-3" v-if="index != posts.data.length - 1" />
     </div>
     <paginator :collection="posts" :show="showPaginator" class="mt-2" />
   </div>

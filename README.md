@@ -16,6 +16,8 @@ Social-media app with Laravel 8, Vue.js, Inertia.js & Tailwind CSS.
 Features list
 - models including: Post, Comments
 - create, edit, delete posts and comments (Vue.js & Inertia.js)
+- authorize edit/delete posts/comments - in Laravel and Vue.js
+- Resource Models created (cast Eloquent Models into JSON w/ chosen attributes)
 
 To-do list
 - models including: Favorite, Follow, Activity

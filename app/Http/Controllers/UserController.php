@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -48,7 +49,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         return Inertia::render('Activity', [
-            'profileUser' => $user,
+            'profileUser' => (new UserResource($user)),
         ]);
     }
 
