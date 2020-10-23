@@ -23,8 +23,8 @@ class Comment extends JsonResource
             'post' => (new PostResource($this->post)),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'update_comment' => auth()->user()->can('update', $this->resource),
-            'delete_comment' => auth()->user()->can('delete', $this->resource),
+            'update_comment' => auth()->check() ? auth()->user()->can('update', $this->resource) : false,
+            'delete_comment' => auth()->check() ? auth()->user()->can('delete', $this->resource) : false,
         ];
     }
 }

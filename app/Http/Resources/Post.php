@@ -24,8 +24,8 @@ class Post extends JsonResource
             'comments_count' => $this->comments_count,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'update_post' => auth()->user()->can('update', $this->resource),
-            'delete_post' => auth()->user()->can('delete', $this->resource),
+            'update_post' => auth()->check() ? auth()->user()->can('update', $this->resource) : false,
+            'delete_post' => auth()->check() ? auth()->user()->can('delete', $this->resource) : false,
         ];
     }
 }

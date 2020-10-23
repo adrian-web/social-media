@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-100">
-        <nav class="bg-white border-b border-gray-100" v-if="$page.user !== null">
+        <nav class="bg-white border-b border-gray-100">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -20,15 +20,24 @@
                             <jet-nav-link :href="route('posts')" :active="$page.currentRouteName == 'posts'">
                                 Posts
                             </jet-nav-link>
-                            <jet-nav-link :href="$page.user.path" :active="$page.currentRouteName == 'activity'">
+                            <jet-nav-link v-if="$page.user !== null" :href="$page.user.path" :active="$page.currentRouteName == 'activity'">
                                 Activity
                             </jet-nav-link>
-                            <create-post />
+                            <create-post v-if="$page.user !== null"/>            
                         </div>
                     </div>
 
+                    <div v-if="$page.user === null" class="hidden space-x-8 sm:flex sm:items-center sm:ml-6">
+                        <a :href="route('login')" >
+                            Login
+                        </a>
+                        <a :href="route('register')" >
+                            Register
+                        </a>  
+                    </div>
+
                     <!-- Settings Dropdown -->
-                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                    <div v-if="$page.user !== null" class="hidden sm:flex sm:items-center sm:ml-6">
                         <div class="ml-3 relative">
                             <jet-dropdown align="right" width="48">
                                 <template #trigger>
@@ -131,13 +140,19 @@
                     <jet-responsive-nav-link :href="route('posts')" :active="$page.currentRouteName == 'posts'">
                         Posts
                     </jet-responsive-nav-link>
-                    <jet-responsive-nav-link :href="$page.user.path" :active="$page.currentRouteName == 'activity'">
+                    <jet-responsive-nav-link v-if="$page.user !== null" :href="$page.user.path" :active="$page.currentRouteName == 'activity'">
                         Activity
                     </jet-responsive-nav-link>
+                    <a v-if="$page.user === null" :href="route('login')" >
+                        Login
+                    </a>
+                    <a v-if="$page.user === null" :href="route('register')" >
+                        Register
+                    </a>
                 </div>
 
                 <!-- Responsive Settings Options -->
-                <div class="pt-4 pb-1 border-t border-gray-200">
+                <div v-if="$page.user !== null" class="pt-4 pb-1 border-t border-gray-200">
                     <div class="flex items-center px-4">
                         <div class="flex-shrink-0">
                             <img class="h-10 w-10 rounded-full" :src="$page.user.profile_photo_url" :alt="$page.user.name" />
@@ -201,15 +216,6 @@
                             </template>
                         </template>
                     </div>
-                </div>
-            </div>
-        </nav>
-        <nav class="bg-white border-b border-gray-100" v-else>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-end items-center h-16">
-                    <a :href="route('login')" class="text-sm text-gray-700 underline">Login</a>
-
-                    <a :href="route('register')" class="ml-4 text-sm text-gray-700 underline">Register</a>
                 </div>
             </div>
         </nav>

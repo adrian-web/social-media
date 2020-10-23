@@ -14,7 +14,7 @@
               :key="post.data.id"
               :comments="comments"
             />
-            <create-comment :post="post.data" />
+            <create-comment v-if="$page.user !== null" :post="post.data" />
           </div>
         </div>
       </div>

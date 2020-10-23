@@ -22,6 +22,9 @@
       <div class="mt-3">
         {{ post.body }}
       </div>
+      <div class="mt-1 flex text-xs">
+        <p class="ml-auto" v-text="commentsCount(post.comments_count)"></p>
+      </div>
     </div>
     <paginator :collection="posts" :show="showPaginator" class="mt-2" />
   </div>
@@ -37,11 +40,19 @@
 
     props: ["posts"],
 
+    methods: {
+      commentsCount(count) {
+        if (count == 1) {
+          return count + " comment";
+        } else {
+          return count + " comments";
+        }
+      },
+    },
+
     computed: {
       showPaginator() {
-        return (
-          this.posts.prev_page_url != null || this.posts.next_page_url != null
-        );
+        return this.posts.links.prev != null || this.posts.links.next != null;
       },
     },
   };
